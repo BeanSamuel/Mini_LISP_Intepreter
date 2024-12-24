@@ -1,5 +1,6 @@
 import re
 import os
+import sys
 from copy import deepcopy
 
 
@@ -305,7 +306,7 @@ def parse_parenthesized_expression(source_str: str):
     if depth != 0:
         raise SyntaxError(f"syntax error")
 
-    # 取出最外層括號內的字串
+    # 刪去最外層括號內的字串
     inner_expr = s[1:closing_index].strip()
     # 剩餘的字串
     remaining_str = s[closing_index + 1:].strip()
@@ -367,23 +368,26 @@ def parse_tokens(source_str: str):
 def main():
     global vars_manager
     vars_manager = EnvironmentStack()
+    files_to_process = sys.argv[1:]
+    test_dir = 'public_test_data'  # Path to the test directory
+    if files_to_process == []:
+        files_to_process = [os.path.join(test_dir, file) for file in sorted(os.listdir(test_dir)) if file.endswith('.lsp')]
+    else:
+        files_to_process = [file for file in files_to_process if file.endswith('.lsp')]
+    
+    for file in files_to_process:
+        print(f"==================== 執行檔案: {file} ====================")
+        with open(file, 'r', encoding='utf-8') as f:
+            content = ' '.join(line.strip() for line in f)
 
-    test_dir = './test_data/public_test_data'  # Path to the test directory
+        vars_manager = EnvironmentStack()
 
-    for file in sorted(os.listdir(test_dir)):
-        if file:
-            print(f"==================== 執行檔案: {file} ====================")
-            with open(os.path.join(test_dir, file), 'r', encoding='utf-8') as f:
-                content = ' '.join(line.strip() for line in f)
-
-            vars_manager = EnvironmentStack()
-
-            try:
-                while content:
-                    expr_node, content = parse_parenthesized_expression(content.strip())
-                    expr_node.get_value()
-            except Exception as e:
-                print(e)
+        try:
+            while content:
+                expr_node, content = parse_parenthesized_expression(content.strip())
+                expr_node.get_value()
+        except Exception as e:
+            print(e)
 
 if __name__ == '__main__':
     main()
