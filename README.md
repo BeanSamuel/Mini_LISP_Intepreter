@@ -13,20 +13,20 @@ This Python script processes `.lsp` files, allowing users to execute specified f
 Ensure Python 3 is installed and save the script as `main.py`.
 
 ### Specify Files
-Run the following command to process one or more `.lisp` files:
+Run the following command to process one or more `.lsp` files:
 ```bash
-python3 main.py file1.lisp file2.lisp
+python3 main.py file1.lsp file2.lsp
 ```
 
 ### Default Directory
-If no files are specified, the script processes all `.lisp` files in the `public_test_data` directory:
+If no files are specified, the script processes all `.lsp` files in the `public_test_data` directory:
 ```bash
 python3 main.py
 ```
 
 ## File Structure
 - `main.py`: The main script for reading files, parsing content, and execution.
-- `public_test_data`: Directory containing public test `.lisp` files.
+- `public_test_data`: Directory containing public test `.lsp` files.
 
 ## Developer Notes
 ### Key Classes and Functions
@@ -44,7 +44,7 @@ python3 main.py
 ## Example Output
 When processing files, the output will include the following format:
 ```
-==================== Processing File: file1.lisp ====================
+==================== Processing File: file1.lsp ====================
 <Parsed and evaluated results>
 ```
 If an error occurs, an error message will be displayed.
